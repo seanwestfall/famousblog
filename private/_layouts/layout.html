@@ -1,0 +1,41 @@
+<head>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+  <!-- requirejs -->
+
+  <!-- shims for backwards compatibility -->
+  <script type="text/javascript" src="http://code.famo.us/lib/functionPrototypeBind.js"></script>
+  <script type="text/javascript" src="http://code.famo.us/lib/classList.js"></script>
+  <script type="text/javascript" src="http://code.famo.us/lib/requestAnimationFrame.js"></script>
+
+  <!-- famous -->
+  <link rel="stylesheet" type="text/css" href="http://code.famo.us/famous/0.3/famous.css" />
+  <script type="text/javascript" src="http://code.famo.us/famous/0.3/famous-global.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css" />
+
+</head>
+<body>
+  <div class="header" style="display:none">
+    {{> header}}
+  </div>
+
+  <div class="navi" style="display:none">
+  {{> navi}}
+  </div>
+
+  <div class="content">
+    <div class="innerContent">
+      {{> content}}
+    </div>
+  </div>
+
+  <div class="footer" style="display:none">
+  {{> footer}}
+  </div>
+
+  <!-- app code -->
+  <script src="/javascript/layout.main.js"></script>
+</body>

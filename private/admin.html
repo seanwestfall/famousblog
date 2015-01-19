@@ -1,0 +1,32 @@
+<head>
+  <link rel="stylesheet" href="bower_components/famous-angular/dist/famous-angular.css">
+</head>
+<body ng-app="famousTest">
+  <fa-app ng-controller="ScrollCtrl">
+  <fa-modifier fa-size="[960, undefined]" fa-origin="[0.5,0]" fa-align="[0.5,0]">
+  <fa-header-footer-layout fa-options="{direction: 0, headerSize: 75, footerSize: 75}">
+
+    <!-- header -->
+    <fa-surface fa-background-color="'#000'" fa-color="'#fff'">
+    Welcome to the Admin Panel
+    </fa-surface>
+
+    <!-- content -->
+    <fa-surface fa-background-color="'gray'" fa-color="'#000'" fa-pipe-to="myEventHandler">
+    Content
+    </fa-surface>
+    
+    <!-- footer -->
+    <fa-surface fa-background-color="'#fff'">
+    Footer
+    </fa-surface>
+
+  </fa-header-footer-layout>
+  </fa-modifier>
+  </fa-app>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/famous/dist/famous-global.js"></script>
+  <script src="bower_components/famous-angular/dist/famous-angular.js"></script>
+  <script src="angular/famousTest.js"></script>
+</body>
+
