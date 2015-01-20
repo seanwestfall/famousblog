@@ -70,6 +70,10 @@ code {
   list-style-type: none;
 }
 
+.sociallist {
+  margin-top: 120px;
+}
+
 .sociallist > li {
   line-height: 20px;
   margin-left: 185px;

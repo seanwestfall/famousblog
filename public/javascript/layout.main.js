@@ -110,12 +110,12 @@ var navilayout = new HeaderFooterLayout({
 /* navi */
 var naviView = new View();
 
-var naviModifier = new Modifier({
-    align: [0, 0],
-    origin: [0, 0]
-});
+//var naviModifier = new Modifier({
+    //align: [0, 0],
+    //origin: [0, 0]
+//});
 
-naviView.add(naviModifier)
+//naviView.add(naviModifier)
 
 var naviSurface = new Surface({
     size: [140, undefined],
@@ -127,10 +127,41 @@ var naviSurface = new Surface({
         textAlign: "right"
     }
 });
+
+
+naviSurface.node = new RenderNode();
+naviSurface.mod = new Modifier({
+  align: [0, 0],
+  origin: [0, 0],
+  opacity:1
+});
+
+naviSurface.node.add(naviSurface.mod).add(naviSurface);
+
 naviSurface.pipe(scrollview);
 naviView.add(naviSurface);
-navilayout.header.add(naviModifier).add(naviSurface);
+navilayout.header.add(naviSurface);
 navilayout.content.add(contentSurface);
+
+/* social buttons */
+var smView = new View();
+
+var smModifier = new Modifier({
+    align: [0, 0],
+    origin: [0, 0]
+});
+
+smView.add(smModifier).add(new Surface({
+    size: [230, undefined],
+    content: socialButtons,
+    properties: {
+        backgroundColor: 'rgba(255,255,255,0)',
+        color: 'black',
+        lineHeight: "0px",
+        textAlign: "center"
+    }
+}));
+navilayout.footer.add(smView);
 
 baseView.add(new Modifier({
       transform : Transform.behind,
@@ -155,6 +186,7 @@ view.add(sModifier).add(scrollview);
 //contentlayout.header.add(naviView);
 
 contentlayout.content.add(view);
+//contentlayout.footer.add(smView);
 
 baselayout.content.add(contentlayout);
 
@@ -203,19 +235,20 @@ var hiddenlayout = new HeaderFooterLayout({
   direction: 0
 });
 
-
+/* hidden navi */
 var naviView2 = new View();
 
-var naviModifier = new Modifier({
-    size: [140, 0],
+var naviModifier2 = new Modifier({
+    size: [140, undefined],
     align: [0, 0],
-    origin: [0, 0]
+    origin: [0, 0],
+    opacity: 0
 });
 
-naviView2.add(naviModifier)
+naviView2.add(naviModifier2)
 
-var naviSurface = new Surface({
-    size: [140, 0],
+var naviSurface2 = new Surface({
+    size: [140, undefined],
     content: naviHtml,
     properties: {
         backgroundColor: 'white',
@@ -226,12 +259,12 @@ var naviSurface = new Surface({
 });
 
 
-naviSurface.node = new RenderNode();
-naviSurface.mod = new Modifier({size:[140,0]});
+naviSurface2.node = new RenderNode();
+naviSurface2.mod = new Modifier({opacity:0});
 
-naviSurface.node.add(naviSurface.mod).add(naviSurface);
+naviSurface2.node.add(naviSurface2.mod).add(naviSurface2);
 
-naviView2.add(naviSurface);
+naviView2.add(naviSurface2);
 
 hiddenlayout.header.add(naviView2);
 
@@ -251,12 +284,17 @@ layoutview.add(new Modifier({
 })).add(baselayout);
 //mainContext.add(layoutview);
 
+/* hidden social buttons */
+
+/* scroll events */
 scrollview.sync.on('update',function(e){
   if(scrollview.getAbsolutePosition()>80) {
-    naviSurface.setSize([140,undefined])
+    //naviSurface.mod.setOpacity(0);
+    //naviSurface2.mod.setOpacity(1);
     stickyheader.setSize([undefined,20]);
   } else {
-    naviSurface.setSize([140,0])
+    //naviSurface.mod.setOpacity(1);
+    //naviSurface2.mod.setOpacity(0);
     stickyheader.setSize([undefined,0]);
   }
 });
