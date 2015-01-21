@@ -257,6 +257,7 @@ var naviModifier2 = new Modifier({
 naviView2.add(naviModifier2)
 
 var naviSurface2 = new Surface({
+    transform : Transform.inFront,
     size: [140, undefined],
     content: naviHtml,
     properties: {

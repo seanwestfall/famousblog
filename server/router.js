@@ -52,8 +52,14 @@ Router.map(function() {
         post.month = fileTerms[1];
         post.day = fileTerms[2];
         post.file = file;
+
         fileTerms.splice(0,3);
         post.title = fileTerms.join(' ');
+
+        var extension = post.title.split('.');
+        post.filename = extension[0];
+        post.extension = extension[1];
+
         posts.push(post);
       });
 
@@ -89,8 +95,15 @@ Router.map(function() {
   this.route('/blog', {
     where: 'server',
     action: function() {
-      var markdown = marked(Assets.getText('_posts/2014-12-22-template-haskell.md'));
-      SSR.compileTemplate('markdown', markdown);
+      var items = walk(dir).reverse();
+      var markdownList = "";
+      items.forEach(function(i) {
+        var item = i.split("/");
+        var file = item.pop();
+        var markdown = marked(Assets.getText('_posts/'+file));
+        markdownList += markdown;
+      });
+      SSR.compileTemplate('markdown', markdownList);
       SSR.compileTemplate('content', Assets.getText('blog.html'));
       var html = SSR.render('mainlayout');
       this.response.end(html);

@@ -125,3 +125,34 @@ code {
 .scrollNavi {
   margin-top: 0px;
 }
+
+.contact {
+  width: 100%;
+}
+
+.contact > table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contact > tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+.contact > tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+.contact > th, td {
+  text-align: left;
+  padding: 5px 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.secondarycontact {
+  margin-top: 40px;
+}
