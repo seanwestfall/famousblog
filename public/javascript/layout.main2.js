@@ -8,6 +8,7 @@
  * @copyright Sean Westfall, 2015
  */
 
+/* Load Famo.us components */
 var Engine = famous.core.Engine;
 var Surface = famous.core.Surface;
 var HeaderFooterLayout = famous.views.HeaderFooterLayout;
@@ -18,19 +19,39 @@ var View = famous.core.View;
 var RenderNode = famous.core.RenderNode;
 var Transform = famous.core.Transform;
 
+/* Load html content */
 var contentHtml = $('.content').html();
 var headerHtml = $('.header').html();
 var naviHtml = $('.navi').html();
 var footerHtml = $('.footer').html();
 var socialButtons = $('.social').html();
 
-/* main DOM */
+/* DOM context */
 var mainContext = Engine.createContext();
 
+/*
+ * This page is essentiailly split into two layers
+ * A content layer on the bottom which contains the
+ * fixed content. And a hidden layer on top that shows
+ * after scrolling past the header.
+ * mainContext {
+ * BASE LAYER
+ *   CONTENT LAYER -- scrollpane and navilayer
+ *   HIDDEN LATER -- dynamic navi and social buttons
+ * }
+ */
+
 /* BASE LAYER */
+// The base layout contains the content section (with
+// dynamic header, navi, and social buttons
+// and the fixed header
 var baselayout = new HeaderFooterLayout({
   direction: 1
 });
+
+/* CONTENT LAYER */
+/* or the lower layer */
+/*---------------------*/
 var contentlayout = new HeaderFooterLayout({
   direction: 0
 });
@@ -41,7 +62,9 @@ var scrollview = new Scrollview();
 var surfaces = [];
 scrollview.sequenceFrom(surfaces);
 
+/* contentSurface contains the main view's content */
 var contentSurface = new Surface({
+    size: [780,undefined],
     content: contentHtml,
     properties: {
         backgroundColor: '#fff',
@@ -71,6 +94,9 @@ contentSurface.modOpacity = new StateModifier();
 contentSurface.modOpacity.setOpacity(0);
 contentSurface.modOpacity.setOpacity(1, {duration : 800});
 
+/* fixed header */
+var baseView = new View();
+
 var baseHeader = new Surface({
     size: [undefined, 80],
     content: headerHtml,
@@ -80,9 +106,6 @@ var baseHeader = new Surface({
         textAlign: "right"
     }
 });
-baseHeader.pipe(scrollview);
-
-var baseView = new View();
 
 var headerview = new View();
 var wideheader =  new Surface({
@@ -103,20 +126,13 @@ baseView.add(new Modifier({
       align: [.5, 0]
 })).add(baseHeader);
 
+// navilayor contains the header/footer/content pane
 var navilayout = new HeaderFooterLayout({
   direction: 0
 });
 
 /* navi */
 var naviView = new View();
-
-//var naviModifier = new Modifier({
-    //align: [0, 0],
-    //origin: [0, 0]
-//});
-
-//naviView.add(naviModifier)
-
 var naviSurface = new Surface({
     size: [140, undefined],
     content: naviHtml,
@@ -127,7 +143,6 @@ var naviSurface = new Surface({
         textAlign: "right"
     }
 });
-
 
 naviSurface.node = new RenderNode();
 naviSurface.mod = new Modifier({
@@ -141,7 +156,7 @@ naviSurface.node.add(naviSurface.mod).add(naviSurface);
 naviSurface.pipe(scrollview);
 naviView.add(naviSurface);
 navilayout.header.add(naviSurface);
-navilayout.content.add(contentSurface);
+navilayout.content.add(contentSurface.modOpacity).add(contentSurface);
 
 /* social buttons */
 var smView = new View();
@@ -170,7 +185,8 @@ baseView.add(new Modifier({
       align: [.5, 0]
 })).add(navilayout);
 
-contentSurface.node.add(contentSurface.modOpacity).add(contentSurface.mod).add(baseView);
+/* this is the main section where the scrollview is set */
+contentSurface.node.add(contentSurface.mod).add(baseView);
 surfaces.push(contentSurface.node);
 
 /* main view */
@@ -182,14 +198,12 @@ var sModifier = new StateModifier({
 });
 view.add(sModifier).add(scrollview);
 
-
-//contentlayout.header.add(naviView);
-
+// and the main view is added to the contentlayout
 contentlayout.content.add(view);
-//contentlayout.footer.add(smView);
 
 baselayout.content.add(contentlayout);
 
+/* This is where the footer is added the the baselayout */
 baselayout.footer.add(new Modifier({
       transform : Transform.inFront,
       size: [930, 50],
@@ -207,14 +221,7 @@ baselayout.footer.add(new Modifier({
     }
 }));
 
-/* SURFACE LAYER */
-/*var surfacelayout = new HeaderFooterLayout({
-  direction: 0
-});
-var contentlayout = new HeaderFooterLayout({
-  direction: 1
-});*/
-
+// This is the header that moves with the scrollview and disappears
 var stickyheader = new Surface({
     size: [undefined, 0],
     content: "<div>login</div>",
@@ -230,12 +237,13 @@ stickyheader.mod = new Modifier({size:[0,0]});
 stickyheader.node.add(stickyheader.mod).add(stickyheader);
 baselayout.header.add(stickyheader);
 
-/* Second Layer */
+/* Second Hidden Layer */
+/*---------------------*/
 var hiddenlayout = new HeaderFooterLayout({
   direction: 0
 });
 
-/* hidden navi */
+// dynamic hidden navi
 var naviView2 = new View();
 
 var naviModifier2 = new Modifier({
@@ -269,7 +277,7 @@ naviView2.add(naviSurface2);
 // add to hidden layout
 hiddenlayout.header.add(naviView2);
 
-/* hidden social buttons */
+/* dynamic hidden social buttons */
 var smView2 = new View();
 
 var smModifier2 = new Modifier({
@@ -297,9 +305,24 @@ smSurface2.node.add(smSurface2.mod).add(smSurface2);
 
 smView2.add(smSurface2);
 
+// add a invisible content layer for proper spacing
+hiddenlayout.content.add(new Modifier({
+      transform : Transform.behind,
+      size: [930, undefined],
+      origin: [.5, 0],
+      align: [.5, 0],
+      opacity: 0
+})).add(new Surface({
+    size: [930, undefined],
+    properties: {
+      opacity: 0
+    }
+}));
+
 // add to hiddenlayout
 hiddenlayout.footer.add(smView2);
 
+// add hidden layout to baselayout
 var baselayoutmod = new Modifier({
       transform : Transform.behind,
       size: [930, undefined],
@@ -316,6 +339,7 @@ scrollview.sync.on('update',function(e){
     $('.navi').css('margin-top','20px');
     $('.sociallist').css('margin-top','20px');
     $('.sociallist > li').css('margin-left','-230px');
+    smModifier.setOpacity(0);
     naviSurface2.mod.setOpacity(1);
     smSurface2.mod.setOpacity(1);
     stickyheader.setSize([undefined,20]);
@@ -324,23 +348,14 @@ scrollview.sync.on('update',function(e){
     $('.navi').css('margin-top','120px');
     $('.sociallist').css('margin-top','120px');
     $('.sociallist > li').css('margin-left','185px');
+    smModifier.setOpacity(1);
     naviSurface2.mod.setOpacity(0);
     smSurface2.mod.setOpacity(0);
     stickyheader.setSize([undefined,0]);
   }
 });
 
+/* baselayout is finally added to the main context */
 mainContext.add(baselayout);
 
-/*var headerview = new View();
-var wideheader =  new Surface({
-  transform : Transform.behind,
-  size: [undefined, 100],
-  properties: {
-    backgroundColor: 'black'
-  }
-});
-headerview.add(wideheader);
-surfaces.push(wideheader);*/
-//mainContext.add(headerview);
 
