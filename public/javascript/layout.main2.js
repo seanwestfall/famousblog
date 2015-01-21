@@ -162,6 +162,7 @@ navilayout.content.add(contentSurface.modOpacity).add(contentSurface);
 var smView = new View();
 
 var smModifier = new Modifier({
+    transform : Transform.inFront,
     align: [0, 0],
     origin: [0, 0]
 });

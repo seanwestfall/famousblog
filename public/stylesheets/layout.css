@@ -112,6 +112,10 @@ code {
   margin-left: 40px;
 }
 
+.projects > ul {
+  padding: 0px;
+}
+
 .projects li {
   line-height: 30px;
   display: list-item;
