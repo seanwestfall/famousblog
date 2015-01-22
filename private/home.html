@@ -2,7 +2,12 @@
 <h2>Posts</h2>
 <hr>
 <div class="blogposts">
-{{#each data}}
-<p><a href="/blog/{{file}}">{{year}}-{{month}}-{{day}} <b>{{filename}}</b></a></p>
-{{/each}}
+  <ul>
+  {{#each data}}
+  <li class="post">
+    <p><a href="/blog/{{file}}"><b>{{filename}}</b></a></p>
+    <span>Posted <i>{{fdate}}</i></span>
+  </li>
+  {{/each}}
+  </ul>
 </div>

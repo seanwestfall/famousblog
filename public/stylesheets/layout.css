@@ -109,7 +109,17 @@ code {
 }
 
 .blogposts {
-  margin-left: 40px;
+  margin-left: 5px;
+}
+
+.blogposts a:hover {
+  color: #39c;
+}
+
+.blogposts > ul li {
+  display: list-item;
+  list-style-type: disc;
+  margin-bottom: 25px;
 }
 
 .projects > ul {
@@ -156,3 +166,21 @@ code {
 .secondarycontact {
   margin-top: 40px;
 }
+
+.projectlist > ul li {
+  display: list-item;
+  list-style-type: disc;
+}
+
+.projectlist > li {
+  line-height: 25px;
+  display: list-item;
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.projectlist a {
+  color: #39c;
+}
+

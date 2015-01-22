@@ -53,6 +53,10 @@ Router.map(function() {
         post.day = fileTerms[2];
         post.file = file;
 
+        var date = new Date(post.year,post.month-1,post.day);
+        var arrdate = date.toString().split(' ');
+        arrdate.splice(4);
+        post.fdate = arrdate.join(' ');
         fileTerms.splice(0,3);
         post.title = fileTerms.join(' ');
 
