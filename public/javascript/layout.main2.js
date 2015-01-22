@@ -75,6 +75,9 @@ var contentSurface = new Surface({
 });
 contentSurface.pipe(scrollview);
 
+console.log($('.content').outerHeight( true ) + 120);
+var contentHeight = $('.content').outerHeight( true ) + 120;
+
 contentSurface.node = new RenderNode();
 contentSurface.mod = new Modifier();
 
@@ -82,8 +85,9 @@ contentSurface.mod = new Modifier();
 contentSurface.mod.sizeFrom(function(){
     //target = $('.content').height();
     //targetHeight = $('.content').height() + $('.footer').height() + 55; // the 55px account for the top margin and padding.
+    targetHeight = contentHeight;
     if (true){
-        return [undefined,9000];
+        return [undefined,targetHeight];
     } else {
         return [undefined,true];
     }
