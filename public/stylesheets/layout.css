@@ -123,6 +123,10 @@ code {
   margin-bottom: 25px;
 }
 
+.blogposts > p {
+  margin: 0px;
+}
+
 .projects > ul {
   padding: 0px;
 }
