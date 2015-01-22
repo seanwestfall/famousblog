@@ -117,6 +117,7 @@ code {
 }
 
 .blogposts > ul li {
+  margin: 0px;
   display: list-item;
   list-style-type: disc;
   margin-bottom: 25px;
