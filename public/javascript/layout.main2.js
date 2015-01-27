@@ -18,6 +18,8 @@ var Modifier = famous.core.Modifier;
 var View = famous.core.View;
 var RenderNode = famous.core.RenderNode;
 var Transform = famous.core.Transform;
+var RenderController = famous.views.RenderController;
+var Easing          = famous.transitions.Easing;
 
 /* Load html content */
 var contentHtml = $('.content').html();
@@ -105,11 +107,20 @@ var baseHeader = new Surface({
     size: [undefined, 80],
     content: headerHtml,
     properties: {
-        backgroundColor: 'black',
+        backgroundColor: 'rgba(0,0,0,0)',
         color: 'white',
         textAlign: "right"
     }
 });
+
+baseHeader.ctrl = new RenderController({
+  inTransition: {curve: Easing.inOutQuart, duration: 600},
+  outTransition: {curve: Easing.inOutQuart, duration: 600},
+  overlap: true,
+});
+
+baseHeader.ctrl.inOpacityFrom(function(progress) { return progress; });
+baseHeader.ctrl.outOpacityFrom(function(progress) { return progress; });
 
 var headerview = new View();
 var wideheader =  new Surface({
@@ -128,7 +139,25 @@ baseView.add(new Modifier({
       size: [930, undefined],
       origin: [.5, 0],
       align: [.5, 0]
-})).add(baseHeader);
+}));
+
+var x = document.referrer;
+
+if(!x) {
+  baseView.add(new Modifier({
+        transform : Transform.inFront,
+        size: [930, undefined],
+        origin: [.5, 0],
+        align: [.5, 0]
+  })).add(baseHeader.ctrl);
+} else {
+  baseView.add(new Modifier({
+        transform : Transform.inFront,
+        size: [930, undefined],
+        origin: [.5, 0],
+        align: [.5, 0]
+  })).add(baseHeader);
+}
 
 // navilayor contains the header/footer/content pane
 var navilayout = new HeaderFooterLayout({
@@ -148,6 +177,20 @@ var naviSurface = new Surface({
     }
 });
 
+naviSurface.ctrl = new RenderController({
+    inTransition: {curve: Easing.inOutQuart, duration: 600},
+    outTransition: {curve: Easing.inOutQuart, duration: 600},
+    overlap: true
+});
+
+naviSurface.ctrl.inTransformFrom(function(progress) {
+    return Transform.translate(0, window.innerHeight * (1.0 - progress), 0);
+});
+
+naviSurface.ctrl.outTransformFrom(function(progress) {
+    return Transform.translate(0, window.innerHeight * progress - window.innerHeight, 0);
+});
+
 naviSurface.node = new RenderNode();
 naviSurface.mod = new Modifier({
   align: [0, 0],
@@ -158,8 +201,15 @@ naviSurface.mod = new Modifier({
 naviSurface.node.add(naviSurface.mod).add(naviSurface);
 
 naviSurface.pipe(scrollview);
-naviView.add(naviSurface);
-navilayout.header.add(naviSurface);
+naviView.add(naviSurface.ctrl);
+
+
+if(!x) {
+  navilayout.header.add(naviSurface.ctrl);
+  $('.innerContent').css("margin-left","140px");
+} else {
+  navilayout.header.add(naviSurface);
+}
 navilayout.content.add(contentSurface.modOpacity).add(contentSurface);
 
 /* social buttons */
@@ -167,11 +217,9 @@ var smView = new View();
 
 var smModifier = new Modifier({
     transform : Transform.inFront,
-    align: [0, 0],
-    origin: [0, 0]
 });
 
-smView.add(smModifier).add(new Surface({
+var smSurface = new Surface({
     size: [230, undefined],
     content: socialButtons,
     properties: {
@@ -180,8 +228,23 @@ smView.add(smModifier).add(new Surface({
         lineHeight: "0px",
         textAlign: "center"
     }
-}));
-navilayout.footer.add(smView);
+});
+smSurface.ctrl = new RenderController({
+  inTransition: {curve: Easing.inOutQuart, duration: 600},
+  outTransition: {curve: Easing.inOutQuart, duration: 600},
+  overlap: true,
+});
+
+smSurface.ctrl.inOpacityFrom(function(progress) { return progress; });
+smSurface.ctrl.outOpacityFrom(function(progress) { return progress; });
+
+//smView.add(smModifier).add(smSurface.ctrl);
+//navilayout.footer.add(smView);
+if(!x) {
+  navilayout.footer.add(smModifier).add(smSurface.ctrl);
+} else {
+  navilayout.footer.add(smModifier).add(smSurface);
+}
 
 baseView.add(new Modifier({
       transform : Transform.behind,
@@ -229,7 +292,7 @@ baselayout.footer.add(new Modifier({
 // This is the header that moves with the scrollview and disappears
 var stickyheader = new Surface({
     size: [undefined, 0],
-    content: "<div>login</div>",
+    content: "<div><a class='login' onclick='openModal()'>login</a></div>",
     properties: {
        backgroundColor: 'black',
        color: 'white',
@@ -344,7 +407,7 @@ scrollview.sync.on('update',function(e){
     baselayoutmod.setOpacity(1);
     $('.navi').css('margin-top','20px');
     $('.sociallist').css('margin-top','20px');
-    $('.sociallist > li').css('margin-left','-230px');
+    //$('.sociallist > li').css('margin-left','-230px');
     smModifier.setOpacity(0);
     naviSurface2.mod.setOpacity(1);
     smSurface2.mod.setOpacity(1);
@@ -353,7 +416,7 @@ scrollview.sync.on('update',function(e){
     baselayoutmod.setOpacity(0);
     $('.navi').css('margin-top','120px');
     $('.sociallist').css('margin-top','120px');
-    $('.sociallist > li').css('margin-left','185px');
+    //$('.sociallist > li').css('margin-left','185px');
     smModifier.setOpacity(1);
     naviSurface2.mod.setOpacity(0);
     smSurface2.mod.setOpacity(0);
@@ -363,5 +426,11 @@ scrollview.sync.on('update',function(e){
 
 /* baselayout is finally added to the main context */
 mainContext.add(baselayout);
+naviSurface.ctrl.show(naviSurface);
+baseHeader.ctrl.show(baseHeader);
+smSurface.ctrl.show(smSurface);
+if(!x) {
+  $('.innerContent').css("margin-left","140px");
+}
 
 

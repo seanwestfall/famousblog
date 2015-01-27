@@ -1,0 +1,17 @@
+.text {
+  margin-top: 20px;
+  height: 450px;
+  width: 100%;
+}
+
+.submit {
+  float: right;
+}
+
+.title {
+  width: 100%;
+}
+
+.delete {
+  float: right;
+}

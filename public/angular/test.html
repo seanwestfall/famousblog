@@ -1,0 +1,54 @@
+<fa-app ng-controller="ScrollCtrl">
+  <fa-grid-layout fa-options="myGridLayoutOptions">
+   <!-- 
+    <fa-surface fa-background-color="red">
+      <fa-scroll-view fa-pipe-from="myEventHandler">
+        <fa-sequential-layout fa-options="scopeOptionsObject">
+          <fa-view ng-repeat="view in data">
+            <fa-modifier fa-size="[undefined, 50]">
+              <fa-surface fa-background-color="white" fa-pipe-to="myEventHandler">{{view.filename}}</fa-surface>
+            </fa-modifier>
+          </fa-view>
+        </fa-sequential-layout>
+      </fa-scroll-view>
+    </fa-surface>
+    -->
+    <!--
+    <fa-surface fa-background-color="orange" fa-pipe-to="myEventHandler">
+      <textarea></textarea>
+    </fa-surface>
+    -->
+   <fa-modifier fa-size="[300, undefined]">
+    <fa-surface fa-background-color="red">
+      <fa-scroll-view fa-pipe-from="myEventHandler">
+        <fa-sequential-layout fa-options="scopeOptionsObject">
+          <fa-view ng-repeat="view in data">
+            <fa-modifier fa-size="[undefined, 80]">
+              <fa-surface fa-background-color="white" fa-pipe-to="myEventHandler">
+                {{view.fdate}}<br>
+                {{view.filename}}
+                <span><a class="delete" ng-click="delete(view.file)">delete</a></span>
+              </fa-surface>
+            </fa-modifier>
+          </fa-view>
+        </fa-sequential-layout>
+      </fa-scroll-view>
+    </fa-surface>
+   </fa-modifier>
+   <fa-modifier fa-size="[300, undefined]">
+    <fa-surface fa-background-color="red" fa-pipe-to="myEventHandler">
+      <h2>New Post</h2>
+      <span>
+      <form name="newpost">
+      <label for="title">Title:</label>
+      <input name-"title" type="text" class="title" ng-model="title" ng-value="title"></input>
+      </span>
+      <textarea name="body" class="text" ng-model="body" ng-value="body"></textarea>
+      <button class="submit" ng-click="submit()">Submit</button>
+      </form>
+    </fa-surface>
+   </fa-modifier>
+
+
+  </fa-grid-layout>
+</fa-app>

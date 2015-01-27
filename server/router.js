@@ -1,3 +1,13 @@
+/**
+ * This Source Code is licensed under the MIT license. If a copy of the
+ * MIT-license was not distributed with this file, You can obtain one at:
+ * http://opensource.org/licenses/mit-license.html.
+ *
+ * @author: Sean Westfall
+ * @license MIT
+ * @copyright Sean Westfall, 2015
+ */
+
 // Global Templates
 SSR.compileTemplate('header', Assets.getText('_includes/header.html'));
 SSR.compileTemplate('navi', Assets.getText('_includes/navi.html'));
@@ -150,5 +160,87 @@ Router.map(function() {
       this.response.end(html);
     }
   });
+
+
+  // RESTful routes
+  this.route('/posts', { where: 'server' })
+    .get(function () {
+      var items = walk(dir);
+      var posts = [];
+      items.forEach(function(i) {
+        var item = i.split("/");
+        var file = item.pop();
+        var fileTerms = file.split("-");
+        var post = {};
+        post.year = fileTerms[0];
+        post.month = fileTerms[1];
+        post.day = fileTerms[2];
+        post.file = file;
+
+        var date = new Date(post.year,post.month-1,post.day);
+        var arrdate = date.toString().split(' ');
+        arrdate.splice(4);
+        post.fdate = arrdate.join(' ');
+        fileTerms.splice(0,3);
+        post.title = fileTerms.join(' ');
+
+        var extension = post.title.split('.');
+        post.filename = extension[0];
+        post.extension = extension[1];
+
+        posts.push(post);
+      });
+      this.response.end(JSON.stringify(posts));
+    })
+    .post(function () {
+      console.log(this.request.body);
+      var fs = Npm.require('fs');
+      __ROOT_APP_PATH__ = fs.realpathSync('.');
+
+      var arr = __ROOT_APP_PATH__.split("/");
+      var index = arr.indexOf(".meteor");
+      arr.splice(index, (arr.length-index));
+      arr.shift();
+      arr.push("private");
+      arr.push("_posts");
+      var dir = '/' + arr.join('/');
+
+      var now = new Date();
+
+      dir += '/' + now.getFullYear() + '-' + ("00" + (now.getMonth() + 1)).substr(-2) + '-' +
+             ("00" + now.getDate()).substr(-2) + '-' + this.request.body.title.split(' ').join('-') + '.md';
+      fs.writeFile(dir, this.request.body.body, function(err) {
+        if(err) {
+            console.log(err);
+            this.response.end(JSON.stringify(err));
+        } else {
+            console.log("The file was saved!");
+            this.response.end(JSON.stringify("The file was saved!"));
+        }
+      });
+    })
+    .delete(function () {
+      console.log(this.request.query);
+      var fs = Npm.require('fs');
+      __ROOT_APP_PATH__ = fs.realpathSync('.');
+
+      var arr = __ROOT_APP_PATH__.split("/");
+      var index = arr.indexOf(".meteor");
+      arr.splice(index, (arr.length-index));
+      arr.shift();
+      arr.push("private");
+      arr.push("_posts");
+      var dir = '/' + arr.join('/');
+
+      fs.unlink(dir + "/" + this.request.query.file, function(err) {
+        if(err) {
+            console.log(err);
+            //this.response.end(JSON.stringify(err));
+        } else {
+            console.log("The file was removed!");
+            //this.response.end(JSON.stringify("The file was removed!"));
+        }
+      });
+    });
 });
 

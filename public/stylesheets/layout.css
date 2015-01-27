@@ -20,10 +20,12 @@ ul li {
 }
 
 .navi {
+  font: 1.0rem proxima-nova,'Helvetica Neue',sans-serif;
   margin-right: auto;
   width: 32%;
   text-align: left;
   margin-top: 120px;
+  line-height: 35px;
 }
 
 .title {
@@ -31,7 +33,7 @@ ul li {
 }
 
 .maintitle {
-  font-family: 'Open Sans', sans-serif;
+  font: 2.2rem proxima-nova,'Helvetica Neue',sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
   line-height: 1.2;
@@ -40,8 +42,7 @@ ul li {
 
 .subheader {
   color: gray;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.2rem;
+  font: 1.2rem proxima-nova,'Helvetica Neue',sans-serif;
 }
 
 .login {
@@ -72,11 +73,11 @@ code {
 
 .sociallist {
   margin-top: 120px;
+  float: left;
 }
 
 .sociallist > li {
   line-height: 20px;
-  margin-left: 185px;
   display: list-item;
   list-style-type: none;
 }
@@ -106,6 +107,7 @@ code {
 
 .innerContent {
   margin-top: 120px;
+  margin-left: 140px;
 }
 
 .blogposts {
@@ -189,3 +191,33 @@ code {
   color: #39c;
 }
 
+.form-login {
+    background-color: #EDEDED;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 15px;
+    border-color:#d2d2d2;
+    border-width: 5px;
+    box-shadow:0 1px 0 #cfcfcf;
+}
+
+h4 {
+ border:0 solid #fff;
+ border-bottom-width:1px;
+ padding-bottom:10px;
+ text-align: center;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.login {
+  color: #fff;
+}
