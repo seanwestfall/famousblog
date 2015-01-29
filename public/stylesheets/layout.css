@@ -24,7 +24,7 @@ ul li {
 }
 
 .navi {
-  font: 1.0rem proxima-nova,'Helvetica Neue',sans-serif;
+  font: 1.6rem proxima-nova,'Helvetica Neue',sans-serif;
   margin-right: auto;
   width: 32%;
   text-align: left;
@@ -38,7 +38,7 @@ ul li {
 
 .maintitle {
   font: 2.2rem proxima-nova,'Helvetica Neue',sans-serif;
-  font-size: 2.2rem;
+  font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
@@ -46,7 +46,7 @@ ul li {
 
 .subheader {
   color: gray;
-  font: 1.2rem proxima-nova,'Helvetica Neue',sans-serif;
+  font: 1.6rem proxima-nova,'Helvetica Neue',sans-serif;
 }
 
 .login {

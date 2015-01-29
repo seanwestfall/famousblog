@@ -156,18 +156,18 @@ Router.map(function() {
     where: 'server',
     name: 'admin',
     action: function() {
-      var userId = this.params.userid;
+      /*var userId = this.params.userid;
       var logintoken = this.params.logintoken;
       var isdirect = this.params.direct;
       var user = Meteor.users.findOne({_id:userId,"services.resume.loginTokens.token":logintoken});
-      console.log(user);
-      if(true) {
+      console.log(user);*/
+      //if(true) {
         SSR.compileTemplate('admin', Assets.getText('admin.html'));
         var html = SSR.render('admin');
         this.response.end(html);
-      } else {
-        this.render('accessDenied');
-      }
+      //} else {
+      //  this.render('accessDenied');
+      //}
     }
   });
 
