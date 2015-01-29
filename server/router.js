@@ -154,10 +154,20 @@ Router.map(function() {
   });
   this.route('/admin', {
     where: 'server',
+    name: 'admin',
     action: function() {
-      SSR.compileTemplate('admin', Assets.getText('admin.html'));
-      var html = SSR.render('admin');
-      this.response.end(html);
+      var userId = this.params.userid;
+      var logintoken = this.params.logintoken;
+      var isdirect = this.params.direct;
+      var user = Meteor.users.findOne({_id:userId,"services.resume.loginTokens.token":logintoken});
+      console.log(user);
+      if(true) {
+        SSR.compileTemplate('admin', Assets.getText('admin.html'));
+        var html = SSR.render('admin');
+        this.response.end(html);
+      } else {
+        this.render('accessDenied');
+      }
     }
   });
 
