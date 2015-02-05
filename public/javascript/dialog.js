@@ -45,6 +45,7 @@ var test = new Surface({
 test.ctrl = new RenderController({
     inTransition: {curve: Easing.inOutQuart, duration: 600},
     outTransition: {curve: Easing.inOutQuart, duration: 600},
+    overlap: true
 });
 
 test.ctrl.inTransformFrom(function(progress) {

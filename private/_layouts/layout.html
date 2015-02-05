@@ -20,22 +20,53 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" type="text/css" href="/stylesheets/layout.css" />
 
+<!-- Test 
+  <script type="text/javascript">__meteor_runtime_config__ = {"meteorRelease":"METEOR@1.0.3.1","ROOT_URL":"http://localhost:8000/","ROOT_URL_PATH_PREFIX":"","appId":"2odlj41gcc3dwxiz5ut","autoupdateVersion":"1e829533e5fb0c0f7375e67f06d1e80bc1e090ec","autoupdateVersionRefreshable":"144fdd63f615b9ebdd3145de1445a2c66baf722b","autoupdateVersionCordova":"none"};</script>
+
+  <script type="text/javascript" src="/packages/underscore.js"></script>
+  <script type="text/javascript" src="/packages/meteor.js"></script>
+  <script type="text/javascript" src="/packages/json.js"></script>
+  <script type="text/javascript" src="/packages/base64.js"></script>
+  <script type="text/javascript" src="/packages/ejson.js"></script>
+  <script type="text/javascript" src="/packages/logging.js"></script>
+  <script type="text/javascript" src="/packages/reload.js"></script>
+  <script type="text/javascript" src="/packages/tracker.js"></script>
+  <script type="text/javascript" src="/packages/random.js"></script>
+  <script type="text/javascript" src="/packages/retry.js"></script>
+  <script type="text/javascript" src="/packages/check.js"></script>
+  <script type="text/javascript" src="/packages/id-map.js"></script>
+  <script type="text/javascript" src="/packages/ordered-dict.js"></script>
+  <script type="text/javascript" src="/packages/geojson-utils.js"></script>
+  <script type="text/javascript" src="/packages/minimongo.js"></script>
+  <script type="text/javascript" src="/packages/ddp.js"></script>
+  <script type="text/javascript" src="/packages/follower-livedata.js"></script>
+  <script type="text/javascript" src="/packages/application-configuration.js"></script>
+  <script type="text/javascript" src="/packages/insecure.js"></script>
+  <script type="text/javascript" src="/packages/mongo.js"></script>
+  <script type="text/javascript" src="/packages/autoupdate.js"></script>
+  <script type="text/javascript" src="/packages/meteor-platform.js"></script>
+  <script type="text/javascript" src="/packages/autopublish.js"></script>
+  <script type="text/javascript" src="/packages/webapp.js"></script>
+  <script type="text/javascript" src="/packages/deps.js"></script>
+  <script type="text/javascript" src="/packages/reactive-dict.js"></script>
+  <script type="text/javascript" src="/packages/session.js"></script>
+  <script type="text/javascript" src="/packages/livedata.js"></script>
+  <script type="text/javascript" src="/packages/jquery.js"></script>
+  <script type="text/javascript" src="/packages/htmljs.js"></script>
+  <script type="text/javascript" src="/packages/observe-sequence.js"></script>
+  <script type="text/javascript" src="/packages/reactive-var.js"></script>
+  <script type="text/javascript" src="/packages/blaze.js"></script>
+  <script type="text/javascript" src="/packages/ui.js"></script>
+  <script type="text/javascript" src="/packages/templating.js"></script>
+  <script type="text/javascript" src="/packages/spacebars.js"></script>
+  <script type="text/javascript" src="/packages/launch-screen.js"></script>
+  <script type="text/javascript" src="/packages/global-imports.js"></script>
+  -->
+
 </head>
 <body>
   <div class="login" style="display:none">
-    <form class="form-signin" action="/admin" method="POST">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+      {{> login}}
       <div class="closeButton"><a onclick="hideModal()">close</a></div>
   </div>
 
@@ -58,6 +89,7 @@
   </div>
 
   <!-- app code -->
+  <script src="/javascript/login.js"></script>
   <script src="/javascript/layout.main4.js"></script>
   <script src="/javascript/dialog.js"></script>
 </body>

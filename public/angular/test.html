@@ -53,7 +53,10 @@
 				<input name-"title" type="text" class="title" ng-model="title" ng-value="title"></input>
 				</span>
 				<textarea name="body" class="text" ng-model="body" ng-value="body"></textarea>
-				<button class="submit" ng-click="submit()">Submit</button>
+				<span>
+				<button class="submit">Draft</button>
+				<button class="submit" ng-click="submit()">Publish</button>
+				</span>
 				</form>
 			</fa-surface>
 		 </fa-modifier>
@@ -61,7 +64,7 @@
 	</fa-app>
   </fa-surface>
 
- 	<!-- empty footer -->
+  <!-- empty footer -->
   <fa-surface fa-background-color="'#fff'" fa-color="'#000'">
   </fa-surface>
   </fa-header-footer-layout>

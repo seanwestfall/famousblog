@@ -12,6 +12,7 @@
 SSR.compileTemplate('header', Assets.getText('_includes/header.html'));
 SSR.compileTemplate('navi', Assets.getText('_includes/navi.html'));
 SSR.compileTemplate('footer', Assets.getText('_includes/footer.html'));
+SSR.compileTemplate('login', Assets.getText('_includes/login.html'));
 SSR.compileTemplate('mainlayout', Assets.getText('_layouts/layout.html'));
 
 // Router Conf
@@ -156,6 +157,17 @@ Router.map(function() {
     where: 'server',
     name: 'admin',
     action: function() {
+
+      Meteor.loginWithPassword("sean.westfall@gmail.com", "admin123", function(err){
+        if (err) {
+		alert(err);
+          // The user might not have been found, or their passwword
+          // could be incorrect. Inform the user that their
+          // login attempt has failed. 
+        } else {
+          // The user has been logged in.
+        }
+      });
       /*var userId = this.params.userid;
       var logintoken = this.params.logintoken;
       var isdirect = this.params.direct;
@@ -170,7 +182,52 @@ Router.map(function() {
       //}
     }
   });
+  this.route('/test', {
+    where: 'server',
+    name: 'test',
+    action: function() {
+	var path = Npm.require("path");
+	try {
+		console.log(__meteor_bootstrap__.configJson.clientPaths);
+		clientPaths = __meteor_bootstrap__.configJson.clientPaths;
+		 _.each(clientPaths, function (clientPath) {
+			staticFiles = {};
+			var clientJsonPath = path.join(__meteor_bootstrap__.serverDir, clientPath);
+			var clientDir = path.dirname(clientJsonPath);
+			var utf8 = Meteor.wrapAsync(fs.readFile)(clientJsonPath, 'utf8');
+			var clientJson = JSON.parse(utf8);
+			var manifest = clientJson.manifest;
+			_.each(manifest, function (item) {
+			    if (item.url && item.where === "client") {
+			      staticFiles[item.url] = {
+			      absolutePath: path.join(clientDir, item.path),
+			      cacheable: item.cacheable,
+			      // Link from source to its map
+			      sourceMapUrl: item.sourceMapUrl,
+			      type: item.type
+			    };
 
+			    if (item.sourceMap) {
+			      // Serve the source map too, under the specified URL. We assume all
+			      // source maps are cacheable.
+			      staticFiles[item.sourceMapUrl] = {
+				absolutePath: path.join(clientDir, item.sourceMap),
+				cacheable: true
+			      };
+			    }
+			  }
+			});
+			console.log(staticFiles);
+		});
+	} catch (e) {
+        	Log.error("Error reloading the client program: " + e.stack);
+        	process.exit(1);
+        } 
+        SSR.compileTemplate('test', Assets.getText('test2.html'));
+        var html = SSR.render('test');
+        this.response.end(html);
+    }
+  });
 
   // RESTful routes
   this.route('/posts', { where: 'server' })
