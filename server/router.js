@@ -158,16 +158,6 @@ Router.map(function() {
     name: 'admin',
     action: function() {
 
-      Meteor.loginWithPassword("sean.westfall@gmail.com", "admin123", function(err){
-        if (err) {
-		alert(err);
-          // The user might not have been found, or their passwword
-          // could be incorrect. Inform the user that their
-          // login attempt has failed. 
-        } else {
-          // The user has been logged in.
-        }
-      });
       /*var userId = this.params.userid;
       var logintoken = this.params.logintoken;
       var isdirect = this.params.direct;

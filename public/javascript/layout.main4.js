@@ -164,6 +164,7 @@ var naviSurface = new Surface({
         textAlign: "right"
     }
 });
+naviSurface.addClass('naviSurfaceFixed');
 
 naviSurface.ctrl = new RenderController({
     inTransition: {curve: Easing.inOutQuart, duration: 600},
@@ -224,6 +225,7 @@ var smSurface = new Surface({
         textAlign: "center"
     }
 });
+smSurface.addClass('smSurfaceFixed');
 smSurface.ctrl = new RenderController({
   inTransition: {curve: Easing.inOutQuart, duration: 600},
   outTransition: {curve: Easing.inOutQuart, duration: 600}
@@ -363,6 +365,82 @@ var stickyheader = new Surface({
 stickyheader.node = new RenderNode();
 stickyheader.mod = new Modifier({size:[0,0]});
 stickyheader.node.add(stickyheader.mod).add(stickyheader);
+
+/* Hidden Navi view */
+var hiddenNaviView = new View();
+
+var naviModifier = new Modifier({
+    size: [140, undefined],
+    align: [0, 0],
+    origin: [0, 0],
+});
+
+hiddenNaviView.add(naviModifier);
+
+var hiddenNaviSurface = new Surface({
+    size: [140, undefined],
+    content: naviHtml,
+    properties: {
+        backgroundColor: 'rgba(255,255,255,0)',
+        color: 'black',
+        lineHeight: "40px",
+        textAlign: "right"
+    }
+});
+hiddenNaviSurface.pipe(scrollview);
+hiddenNaviSurface.addClass("hiddenNaviSurface");
+
+
+hiddenNaviSurface.node = new RenderNode();
+hiddenNaviSurface.mod = new StateModifier({opacity:0});
+
+hiddenNaviSurface.node.add(hiddenNaviSurface.mod).add(hiddenNaviSurface);
+
+hiddenNaviView.add(hiddenNaviSurface);
+
+/* Hidden Social Buttons */
+var hiddenSmView = new View();
+
+var smModifier = new Modifier({
+    align: [-.8, 0],
+    origin: [-.8, 0]
+});
+
+hiddenSmView.add(smModifier);
+
+var hiddenSmSurface = new Surface({
+    size: [230, undefined],
+    content: socialButtons,
+    properties: {
+        backgroundColor: 'rgba(255,255,255,0)',
+        color: 'black',
+        lineHeight: "0px",
+        textAlign: "center"
+    }
+});
+hiddenSmSurface.addClass("hiddenSmSurface");
+
+hiddenSmSurface.node = new RenderNode();
+hiddenSmSurface.mod = new StateModifier({opacity:0});
+
+hiddenSmSurface.node.add(hiddenSmSurface.mod).add(hiddenSmSurface);
+
+hiddenSmView.add(hiddenSmSurface);
+
+/* Add everything to the hiddenlayout */
+hiddenlayout.header.add(hiddenNaviView);
+hiddenlayout.footer.add(hiddenSmView);
+
+// add hidden layout to baselayout
+var baselayoutmod = new Modifier({
+      transform : Transform.behind,
+      size: [930, undefined],
+      origin: [.5, 0],
+      align: [.5, 0],
+      opacity: 0
+});
+baselayout.content.add(baselayoutmod).add(hiddenlayout);
+
 baselayout.header.add(stickyheader);
 /*****************************************************************/
 
@@ -370,8 +448,26 @@ baselayout.header.add(stickyheader);
 scrollview.sync.on('update',function(e){
   if(scrollview.getAbsolutePosition()>80) {
     stickyheader.setSize([undefined,20]);
+
+    baselayoutmod.setOpacity(1);
+    baselayoutmod.setTransform(Transform.inFront);
+    hiddenNaviSurface.mod.setOpacity(1);
+    hiddenSmSurface.mod.setOpacity(1);
+
+    //naviSurface.mod.setOpacity(0);
+    $('.naviSurfaceFixed').css('opacity','0');
+    $('.smSurfaceFixed').css('opacity','0');
   } else {
     stickyheader.setSize([undefined,0]);
+
+    baselayoutmod.setOpacity(0);
+    baselayoutmod.setTransform(Transform.behind);
+    hiddenNaviSurface.mod.setOpacity(0);
+    hiddenSmSurface.mod.setOpacity(0);
+
+    //naviSurface.mod.setOpacity(1);
+    $('.naviSurfaceFixed').css('opacity','1');
+    $('.smSurfaceFixed').css('opacity','1');
   }
 });
 

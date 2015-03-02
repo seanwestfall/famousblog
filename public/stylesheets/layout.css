@@ -275,3 +275,12 @@ h4 {
   margin: 0 auto;
   text-align: center;
 }
+
+.hiddenNaviSurface {
+	margin-top: -90px;
+}
+
+.hiddenSmSurface {
+	margin-top: -90px;
+}
+
