@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+div {
+  display: block;
+}
+
+.title {
+  margin-top: 5px;
+}
+
+.maintitle {
+  font: 2.2rem proxima-nova,'Helvetica Neue',sans-serif;
+  /*font-size: 3.5rem;*/
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.subheader {
+  color: gray;
+  font: 1.0rem proxima-nova,'Helvetica Neue',sans-serif;
+}
+
+.content {
+  background:url('/images/tumblr_mufk1f9MSo1sohz2fo3_400.gif') no-repeat left top;
+  background-size: 100%;
+  width: 100%;
+  height: 100%;
+}
+
